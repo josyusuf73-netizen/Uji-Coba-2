@@ -1,0 +1,3566 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLTU Knowledge OS — Personal Power Plant Encyclopedia</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --bg: #0a0d12;
+  --surface: #141821;
+  --surface-2: #1a1f2b;
+  --surface-3: #232936;
+  --border: #2a3142;
+  --border-light: #3a4256;
+  --text: #e8e9ed;
+  --muted: #7a8294;
+  --muted-2: #5a6172;
+  --accent: #ff8c42;
+  --accent-hover: #ff7a28;
+  --accent-dim: rgba(255, 140, 66, 0.12);
+  --cyan: #4dd6e1;
+  --green: #4ade80;
+  --yellow: #fbbf24;
+  --red: #ef4444;
+  --pink: #f472b6;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+  font-size: 14px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,140,66,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,140,66,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: -10%;
+  right: -5%;
+  width: 50%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(255,140,66,0.08) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heading { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.02em; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, rgba(20,24,33,0.95), rgba(10,13,18,0.95));
+  border-right: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 22px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, var(--accent), #ff5e1a);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  box-shadow: 0 0 24px rgba(255,140,66,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.logo-text h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  margin: 0;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.logo-text p {
+  font-size: 9px;
+  color: var(--muted);
+  margin: 4px 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 12px;
+}
+
+.nav-section { margin-bottom: 18px; }
+
+.nav-section-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted-2);
+  padding: 0 12px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13.5px;
+  position: relative;
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+.nav-item:hover {
+  background: rgba(255,140,66,0.06);
+  color: var(--accent);
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(255,140,66,0.18), rgba(255,140,66,0.03));
+  color: var(--accent);
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--accent);
+  border-radius: 0 3px 3px 0;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.nav-item-icon {
+  width: 20px;
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.nav-item-badge {
+  margin-left: auto;
+  background: rgba(255,140,66,0.12);
+  color: var(--accent);
+  padding: 1px 7px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted-2);
+  font-family: 'JetBrains Mono', monospace;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  display: inline-block;
+  margin-right: 6px;
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.main {
+  overflow-y: auto;
+  position: relative;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10,13,18,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb .sep { color: var(--muted-2); font-size: 10px; }
+.breadcrumb .current { color: var(--text); font-weight: 500; }
+
+.search-box {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+  margin-left: auto;
+}
+
+.search-box input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px 10px 42px;
+  color: var(--text);
+  font-size: 13.5px;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.search-box input::placeholder { color: var(--muted-2); }
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(255,140,66,0.1);
+  background: var(--surface-2);
+}
+
+.search-box i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.search-kbd {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--surface-3);
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 14px;
+  position: relative;
+}
+
+.icon-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(255,140,66,0.05);
+}
+
+.icon-btn .badge-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 8px;
+  min-width: 16px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.content {
+  padding: 28px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.hero {
+  background: 
+    radial-gradient(circle at top right, rgba(255,140,66,0.18), transparent 50%),
+    linear-gradient(135deg, rgba(255,140,66,0.08), rgba(77,214,225,0.04)),
+    var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    linear-gradient(rgba(255,140,66,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,140,66,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  mask: radial-gradient(ellipse at top right, black, transparent 70%);
+}
+
+.hero-content { position: relative; z-index: 1; }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,140,66,0.12);
+  border: 1px solid rgba(255,140,66,0.3);
+  color: var(--accent);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  background: linear-gradient(135deg, #fff 30%, #ff8c42 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0 0 24px;
+  max-width: 580px;
+  line-height: 1.6;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-value {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.steam-particle {
+  position: absolute;
+  bottom: 0;
+  width: 4px;
+  height: 4px;
+  background: rgba(255,140,66,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: rise 8s linear infinite;
+}
+
+@keyframes rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-300px) translateX(40px); opacity: 0; }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px -12px rgba(255,140,66,0.4);
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  opacity: 0.08;
+  filter: blur(20px);
+}
+
+.stat-card[data-color="orange"]::after { background: var(--accent); }
+.stat-card[data-color="cyan"]::after { background: var(--cyan); }
+.stat-card[data-color="green"]::after { background: var(--green); }
+.stat-card[data-color="yellow"]::after { background: var(--yellow); }
+.stat-card[data-color="pink"]::after { background: var(--pink); }
+.stat-card[data-color="red"]::after { background: var(--red); }
+
+.stat-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  font-size: 15px;
+}
+
+.stat-card-value {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-card-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.section {
+  margin-bottom: 28px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.section-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title-bar {
+  width: 4px;
+  height: 22px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+.section-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn {
+  padding: 9px 14px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: 0 5px 18px rgba(255,140,66,0.35);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 11.5px;
+}
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 14px;
+}
+
+.list-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.list-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px -12px rgba(255,140,66,0.25);
+}
+
+.list-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.list-card:hover::before { opacity: 1; }
+
+.list-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.list-card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.list-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.list-card-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.list-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.list-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 9px;
+  background: rgba(77, 214, 225, 0.08);
+  color: var(--cyan);
+  border-radius: 10px;
+  font-size: 10.5px;
+  font-weight: 500;
+  border: 1px solid rgba(77, 214, 225, 0.18);
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tag:hover {
+  background: rgba(77, 214, 225, 0.18);
+  border-color: var(--cyan);
+}
+
+.tag.orange {
+  background: rgba(255,140,66,0.08);
+  color: var(--accent);
+  border-color: rgba(255,140,66,0.2);
+}
+
+.tag.orange:hover {
+  background: rgba(255,140,66,0.18);
+  border-color: var(--accent);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.status-none { background: rgba(122,130,148,0.12); color: var(--muted); }
+.status-none::before { background: var(--muted); }
+
+.status-learning { background: rgba(251,191,36,0.12); color: var(--yellow); }
+.status-learning::before { background: var(--yellow); animation: pulse 2s infinite; }
+
+.status-understood { background: rgba(77,214,225,0.12); color: var(--cyan); }
+.status-understood::before { background: var(--cyan); }
+
+.status-mastered { background: rgba(74,222,128,0.12); color: var(--green); }
+.status-mastered::before { background: var(--green); box-shadow: 0 0 8px var(--green); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.detail-header {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-category {
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 44px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.detail-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.detail-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+}
+
+.detail-main { min-width: 0; }
+.detail-sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+.detail-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+
+.detail-section h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detail-section h3 i {
+  font-size: 13px;
+  width: 24px;
+  height: 24px;
+  background: var(--accent-dim);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-section p {
+  line-height: 1.75;
+  color: rgba(232,233,237,0.92);
+  margin: 0 0 12px;
+  font-size: 13.5px;
+}
+
+.detail-section p:last-child { margin-bottom: 0; }
+
+.detail-section ul, .detail-section ol {
+  padding-left: 18px;
+  line-height: 1.85;
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.detail-section li { margin-bottom: 6px; color: rgba(232,233,237,0.9); }
+
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.param-table th, .param-table td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.param-table th {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.param-table td.value {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.param-table tr:last-child td { border-bottom: none; }
+
+.internal-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(255,140,66,0.4);
+  transition: all 0.2s;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.internal-link:hover {
+  background: rgba(255,140,66,0.1);
+  border-bottom-style: solid;
+}
+
+.widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.widget-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.widget-title i { color: var(--accent); }
+
+.related-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.related-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.related-item:hover {
+  background: rgba(255,140,66,0.06);
+  color: var(--accent);
+}
+
+.related-item-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.related-item:hover .related-item-icon {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.related-item-type {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--muted-2);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+
+.note-editor {
+  width: 100%;
+  min-height: 100px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12.5px;
+  resize: vertical;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.note-editor:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.note-save-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.status-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.status-option {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-option:hover { border-color: var(--accent); }
+
+.status-option.active.status-none { background: rgba(122,130,148,0.2); border-color: var(--muted); color: var(--muted); }
+.status-option.active.status-learning { background: rgba(251,191,36,0.15); border-color: var(--yellow); color: var(--yellow); }
+.status-option.active.status-understood { background: rgba(77,214,225,0.15); border-color: var(--cyan); color: var(--cyan); }
+.status-option.active.status-mastered { background: rgba(74,222,128,0.15); border-color: var(--green); color: var(--green); }
+
+.knowledge-map {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-top: 16px;
+}
+
+.map-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.map-node {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.map-node:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.map-node.current {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(255,140,66,0.4);
+}
+
+.map-arrow {
+  color: var(--muted-2);
+  font-size: 11px;
+  margin: 0 2px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.photo-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.photo-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.photo-img {
+  aspect-ratio: 4/3;
+  background: var(--surface-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.photo-card:hover .photo-img img { transform: scale(1.06); }
+
+.photo-info {
+  padding: 12px 14px;
+}
+
+.photo-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.photo-meta {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+.search-overlay.active { display: flex; }
+
+.search-modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 680px;
+  max-height: 70vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.search-modal-input {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.search-modal-input i { color: var(--accent); font-size: 18px; }
+
+.search-modal-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-size: 18px;
+  font-family: inherit;
+}
+
+.search-modal-input input::placeholder { color: var(--muted-2); }
+
+.search-modal-results {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.search-group-title {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  padding: 12px 12px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.search-result-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-result-item:hover {
+  background: rgba(255,140,66,0.08);
+}
+
+.search-result-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.search-result-content { flex: 1; min-width: 0; }
+
+.search-result-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.search-result-desc {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-type {
+  font-size: 10px;
+  color: var(--muted-2);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+
+.search-highlight {
+  background: rgba(255,140,66,0.25);
+  color: var(--accent);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 300;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 88vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px;
+}
+
+.modal-footer {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  align-items: center;
+}
+
+.form-group { margin-bottom: 16px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-hint {
+  font-size: 11px;
+  color: var(--muted-2);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 240px;
+  animation: slideInRight 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  font-size: 13px;
+}
+
+.toast i { color: var(--accent); }
+.toast.success { border-left-color: var(--green); }
+.toast.success i { color: var(--green); }
+.toast.error { border-left-color: var(--red); }
+.toast.error i { color: var(--red); }
+
+@keyframes slideInRight {
+  from { transform: translateX(40px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 32px;
+  color: var(--muted-2);
+}
+
+.empty-state h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+
+.empty-state p { font-size: 13px; margin: 0 0 18px; }
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.filter-chip {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.filter-chip .count {
+  background: rgba(0,0,0,0.2);
+  padding: 1px 6px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.filter-chip:not(.active) .count {
+  background: var(--surface-3);
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+
+@media (max-width: 1100px) {
+  .detail-layout { grid-template-columns: 1fr; }
+  .dashboard-grid { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 768px) {
+  .app-shell { grid-template-columns: 1fr; }
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+    z-index: 1000;
+    transition: left 0.3s;
+  }
+  .sidebar.open { left: 0; }
+  .hero h1 { font-size: 36px; }
+  .detail-title { font-size: 32px; }
+  .content { padding: 18px; }
+  .topbar { padding: 12px 16px; }
+  .search-box { max-width: none; }
+  .form-row { grid-template-columns: 1fr; }
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn { display: flex; align-items: center; justify-content: center; }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.doc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.doc-item:hover {
+  border-color: var(--accent);
+  background: rgba(255,140,66,0.03);
+}
+
+.doc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.doc-icon.pdf { background: #ef4444; }
+.doc-icon.word { background: #2563eb; }
+.doc-icon.excel { background: #16a34a; }
+.doc-icon.drawing { background: #a855f7; }
+
+.doc-info { flex: 1; min-width: 0; }
+.doc-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+.doc-meta { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+.progress-bar {
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #ff5e1a);
+  border-radius: 3px;
+  transition: width 0.5s;
+}
+
+.random-card {
+  background: linear-gradient(135deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.random-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255,140,66,0.1), transparent 70%);
+  pointer-events: none;
+}
+
+.random-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.random-card-label {
+  font-size: 10px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+
+.random-card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  cursor: pointer;
+}
+
+.random-card-title:hover { color: var(--accent); }
+
+.random-card-desc {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.glossary-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.glossary-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.glossary-abbr {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.glossary-full {
+  font-size: 12px;
+  color: var(--text);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.glossary-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, rgba(255,140,66,0.08), rgba(77,214,225,0.04));
+  border: 1px dashed var(--accent);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.welcome-banner-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-dim);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.welcome-banner h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.welcome-banner p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.welcome-banner-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .welcome-banner { flex-direction: column; }
+}
+</style>
+<!-- Firebase (Cloud Firestore) - compat SDK dipakai agar semua fungsi tetap global
+     dan kompatibel dengan atribut onclick="..." yang sudah ada di HTML ini -->
+<script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore-compat.js"></script>
+<script>
+  // Konfigurasi Firebase project Anda
+  const firebaseConfig = {
+    apiKey: "AIzaSyC1mKB3y6ccJnU5PfVczohHNi_VEmzRLG4",
+    authDomain: "pltu-knowledge.firebaseapp.com",
+    databaseURL: "https://pltu-knowledge-default-rtdb.firebaseio.com",
+    projectId: "pltu-knowledge",
+    storageBucket: "pltu-knowledge.firebasestorage.app",
+    messagingSenderId: "279803527880",
+    appId: "1:279803527880:web:2117b47cc38626f0c11bfd",
+    measurementId: "G-H84VE67QGC"
+  };
+  // Inisialisasi Firebase & Cloud Firestore (dipakai oleh DB.load/save/reset di script utama)
+  firebase.initializeApp(firebaseConfig);
+  const fsDB = firebase.firestore();
+</script>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon"><i class="fas fa-industry"></i></div>
+        <div class="logo-text">
+          <h1>PLTU Knowledge</h1>
+          <p>OS / v1.0.0</p>
+        </div>
+      </div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="sidebar-footer">
+      <span><span class="status-dot"></span>OFFLINE READY</span>
+      <span id="storageInfo">0 KB</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari equipment, komponen, istilah..." autocomplete="off">
+        <span class="search-kbd">Ctrl K</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" title="Tambah Entri Baru" onclick="openQuickAdd()"><i class="fas fa-plus"></i></button>
+        <button class="icon-btn" id="randomBtn" title="Random Knowledge" onclick="openRandom()"><i class="fas fa-dice"></i></button>
+        <button class="icon-btn" id="bookmarkBtn" title="Bookmark" onclick="router.navigate('bookmarks')"><i class="fas fa-bookmark"></i><span class="badge-count" id="bookmarkCount" style="display:none">0</span></button>
+        <button class="icon-btn" title="Import Data (JSON)" onclick="triggerImport()"><i class="fas fa-file-import"></i></button>
+        <button class="icon-btn" title="Export Data (JSON)" onclick="exportData()"><i class="fas fa-file-export"></i></button>
+        <button class="icon-btn" title="Reset Database" onclick="DB.reset()"><i class="fas fa-rotate-left"></i></button>
+        <input type="file" id="importFileInput" accept=".json,application/json" style="display:none" onchange="handleImportFile(event)">
+      </div>
+    </header>
+    <div class="content" id="content"></div>
+  </main>
+</div>
+
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-modal">
+    <div class="search-modal-input">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchModalInput" placeholder="Ketik untuk mencari di seluruh database..." autocomplete="off">
+      <span class="search-kbd" onclick="closeSearch()" style="cursor:pointer">ESC</span>
+    </div>
+    <div class="search-modal-results" id="searchResults"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">Modal</h2>
+      <button class="icon-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ============================================
+   PLTU KNOWLEDGE OS - DATABASE KOSONG
+   Siap diisi oleh pengguna
+   ============================================ */
+
+// ===== STRUKTUR DATA KOSONG =====
+const SEED_DATA = {
+  equipment: [],
+  components: [],
+  electrical: [],
+  instruments: [],
+  systems: [],
+  glossary: [],
+  documents: [],
+  photos: []
+};
+
+// ===== STATE =====
+let state = {
+  data: null,
+  bookmarks: [],
+  notes: {},
+  learningStatus: {},
+  recentlyViewed: [],
+  editingType: null,
+  editingId: null,
+  editingIsNew: false
+};
+
+// Variabel global untuk upload foto
+let currentUploadedPhoto = '';
+let autoSaveTimer = null;
+
+// ===== STORAGE (Cloud Firestore + localStorage sebagai cache/offline backup) =====
+const DB = {
+  KEY: 'pltu_knowledge_os_v1',
+  FS_COLLECTION: 'pltu_knowledge_os',
+  FS_DOC_ID: 'main_data',
+
+  _docRef() {
+    return fsDB.collection(this.FS_COLLECTION).doc(this.FS_DOC_ID);
+  },
+
+  _readLocalCache() {
+    try {
+      const saved = localStorage.getItem(this.KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  },
+
+  _writeLocalCache() {
+    localStorage.setItem(this.KEY, JSON.stringify({
+      data: state.data,
+      bookmarks: state.bookmarks,
+      notes: state.notes,
+      learningStatus: state.learningStatus,
+      recentlyViewed: state.recentlyViewed
+    }));
+  },
+
+  _applyToState(parsed) {
+    state.data = (parsed && parsed.data) || JSON.parse(JSON.stringify(SEED_DATA));
+    state.bookmarks = (parsed && parsed.bookmarks) || [];
+    state.notes = (parsed && parsed.notes) || {};
+    state.learningStatus = (parsed && parsed.learningStatus) || {};
+    state.recentlyViewed = (parsed && parsed.recentlyViewed) || [];
+  },
+
+  async load() {
+    // 1) Muat cache lokal dulu supaya UI langsung punya data sementara (offline-ready)
+    const localData = this._readLocalCache();
+    this._applyToState(localData);
+
+    // 2) Cloud Firestore adalah sumber data utama
+    try {
+      const snap = await this._docRef().get();
+      if (snap.exists) {
+        // Firestore sudah punya data -> pakai ini sebagai sumber kebenaran
+        this._applyToState(snap.data());
+        this._writeLocalCache();
+      } else if (localData) {
+        // Firestore masih kosong tapi localStorage punya data -> migrasi otomatis satu kali
+        await this._docRef().set({
+          data: state.data,
+          bookmarks: state.bookmarks,
+          notes: state.notes,
+          learningStatus: state.learningStatus,
+          recentlyViewed: state.recentlyViewed,
+          migratedAt: new Date().toISOString()
+        });
+        this._writeLocalCache();
+      } else {
+        // Tidak ada data sama sekali -> inisialisasi database kosong di Firestore
+        await this._docRef().set({
+          data: state.data,
+          bookmarks: state.bookmarks,
+          notes: state.notes,
+          learningStatus: state.learningStatus,
+          recentlyViewed: state.recentlyViewed
+        });
+        this._writeLocalCache();
+      }
+    } catch (err) {
+      // Firestore tidak terjangkau (offline/error) -> tetap jalan pakai cache lokal
+      console.warn('Firestore tidak dapat diakses, memakai data lokal sementara:', err);
+    }
+
+    updateStorageInfo();
+  },
+
+  save() {
+    // Simpan ke localStorage secara instan (cache/offline backup, tidak memblokir UI)
+    this._writeLocalCache();
+    updateStorageInfo();
+
+    // Sinkronkan ke Cloud Firestore secara asynchronous
+    this._docRef().set({
+      data: state.data,
+      bookmarks: state.bookmarks,
+      notes: state.notes,
+      learningStatus: state.learningStatus,
+      recentlyViewed: state.recentlyViewed
+    }).catch(err => {
+      console.warn('Gagal menyinkronkan ke Firestore (akan tetap tersimpan di cache lokal):', err);
+    });
+  },
+
+  reset() {
+    if (!checkPassword('mereset database')) return;
+    if (confirm('Hapus SEMUA data dan kembalikan ke kondisi kosong? Tindakan ini tidak dapat dibatalkan.')) {
+      localStorage.removeItem(this.KEY);
+      state.data = JSON.parse(JSON.stringify(SEED_DATA));
+      state.bookmarks = [];
+      state.notes = {};
+      state.learningStatus = {};
+      state.recentlyViewed = [];
+
+      this._docRef().delete().catch(err => {
+        console.warn('Gagal menghapus data di Firestore:', err);
+      });
+
+      this.save();
+      renderNav();
+      updateBookmarkCount();
+      router.navigate('dashboard');
+      showToast('Database direset', 'fa-trash');
+    }
+  }
+};
+
+function updateStorageInfo() {
+  const size = new Blob([JSON.stringify(state)]).size;
+  const kb = (size / 1024).toFixed(1);
+  document.getElementById('storageInfo').textContent = kb + ' KB';
+}
+
+// ===== METADATA =====
+const TYPE_META = {
+  equipment: { label: 'Equipment', icon: 'fa-cog', color: '#ff8c42' },
+  components: { label: 'Component', icon: 'fa-microchip', color: '#4dd6e1' },
+  electrical: { label: 'Electrical', icon: 'fa-bolt', color: '#fbbf24' },
+  instruments: { label: 'Instrument', icon: 'fa-tachometer-alt', color: '#f472b6' },
+  systems: { label: 'System', icon: 'fa-project-diagram', color: '#4ade80' },
+  glossary: { label: 'Glossary', icon: 'fa-book', color: '#c084fc' },
+  documents: { label: 'Document', icon: 'fa-file-alt', color: '#60a5fa' },
+  photos: { label: 'Photo', icon: 'fa-image', color: '#fb7185' }
+};
+
+const NAV_GROUPS = [
+  {
+    title: 'Main',
+    items: [
+      { id: 'dashboard', label: 'Dashboard', icon: 'fa-th-large' },
+      { id: 'bookmarks', label: 'Bookmark', icon: 'fa-bookmark' }
+    ]
+  },
+  {
+    title: 'Database',
+    items: [
+      { id: 'equipment', label: 'Equipment', icon: 'fa-cog' },
+      { id: 'components', label: 'Component', icon: 'fa-microchip' },
+      { id: 'electrical', label: 'Electrical', icon: 'fa-bolt' },
+      { id: 'instruments', label: 'Instrument', icon: 'fa-tachometer-alt' },
+      { id: 'systems', label: 'System', icon: 'fa-project-diagram' }
+    ]
+  },
+  {
+    title: 'Reference',
+    items: [
+      { id: 'glossary', label: 'Glossary', icon: 'fa-book' },
+      { id: 'documents', label: 'Document Library', icon: 'fa-file-alt' },
+      { id: 'photos', label: 'Photo Library', icon: 'fa-image' }
+    ]
+  }
+];
+
+function getTypeMeta(type) {
+  return TYPE_META[type] || { label: type, icon: 'fa-circle', color: '#7a8294' };
+}
+
+function findItem(type, id) {
+  if (!state.data[type]) return null;
+  return state.data[type].find(item => item.id === id) || null;
+}
+
+function findItemByName(name) {
+  const allTypes = Object.keys(state.data);
+  for (const type of allTypes) {
+    const item = state.data[type].find(i => 
+      i.name && i.name.toLowerCase() === name.toLowerCase()
+    );
+    if (item) return { ...item, type };
+  }
+  return null;
+}
+
+function findItemByAbbr(abbr) {
+  if (!state.data.glossary) return null;
+  const item = state.data.glossary.find(g => g.abbr && g.abbr.toLowerCase() === abbr.toLowerCase());
+  return item ? { ...item, type: 'glossary' } : null;
+}
+
+function processContent(text) {
+  if (!text) return '';
+  let html = text;
+  html = html.replace(/\[\[([^\]]+)\]\]/g, (match, name) => {
+    const item = findItemByName(name) || findItemByAbbr(name);
+    if (item) {
+      return `<a class="internal-link" onclick="router.navigate('${item.type}/${item.id}'); return false;">${name}</a>`;
+    }
+    return `<span style="color:var(--muted);border-bottom:1px dotted var(--muted)">${name}</span>`;
+  });
+  html = html.replace(/\n/g, '<br>');
+  return html;
+}
+
+function getStatusKey(type, id) {
+  return `${type}:${id}`;
+}
+
+function getStatus(type, id) {
+  return state.learningStatus[getStatusKey(type, id)] || 'none';
+}
+
+function setStatus(type, id, status) {
+  state.learningStatus[getStatusKey(type, id)] = status;
+  DB.save();
+}
+
+function isBookmarked(type, id) {
+  return state.bookmarks.some(b => b.type === type && b.id === id);
+}
+
+function toggleBookmark(type, id) {
+  const idx = state.bookmarks.findIndex(b => b.type === type && b.id === id);
+  if (idx >= 0) {
+    state.bookmarks.splice(idx, 1);
+    showToast('Bookmark dihapus', 'fa-bookmark');
+  } else {
+    state.bookmarks.push({ type, id, added: Date.now() });
+    showToast('Bookmark ditambahkan', 'fa-bookmark', 'success');
+  }
+  DB.save();
+  updateBookmarkCount();
+}
+
+function updateBookmarkCount() {
+  const count = state.bookmarks.length;
+  const el = document.getElementById('bookmarkCount');
+  if (count > 0) {
+    el.textContent = count;
+    el.style.display = 'block';
+  } else {
+    el.style.display = 'none';
+  }
+}
+
+function getNotes(type, id) {
+  return state.notes[getStatusKey(type, id)] || '';
+}
+
+function setNotes(type, id, note) {
+  state.notes[getStatusKey(type, id)] = note;
+  DB.save();
+}
+
+function addRecentlyViewed(type, id) {
+  const idx = state.recentlyViewed.findIndex(r => r.type === type && r.id === id);
+  if (idx >= 0) state.recentlyViewed.splice(idx, 1);
+  state.recentlyViewed.unshift({ type, id, time: Date.now() });
+  if (state.recentlyViewed.length > 10) state.recentlyViewed.pop();
+  DB.save();
+}
+
+function getAllItems() {
+  const all = [];
+  Object.keys(state.data).forEach(type => {
+    state.data[type].forEach(item => {
+      all.push({ ...item, type });
+    });
+  });
+  return all;
+}
+
+function getStats() {
+  return {
+    equipment: state.data.equipment.length,
+    components: state.data.components.length,
+    electrical: state.data.electrical.length,
+    instruments: state.data.instruments.length,
+    systems: state.data.systems.length,
+    glossary: state.data.glossary.length,
+    documents: state.data.documents.length,
+    photos: state.data.photos.length,
+    bookmarks: state.bookmarks.length,
+    notes: Object.keys(state.notes).filter(k => state.notes[k]).length
+  };
+}
+
+function getRandomKnowledge() {
+  const items = getAllItems().filter(i => ['equipment','components','electrical','instruments','systems'].includes(i.type));
+  if (items.length === 0) return null;
+  return items[Math.floor(Math.random() * items.length)];
+}
+
+function showToast(msg, icon = 'fa-check', type = 'success') {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<i class="fas ${icon}"></i><span>${msg}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+
+// ===== KEAMANAN: PASSWORD UNTUK EXPORT & RESET =====
+const PROTECTED_ACTION_PASSWORD = 'martabak';
+
+function checkPassword(actionLabel) {
+  const input = prompt(`Fitur ini dilindungi kata sandi.\nMasukkan kata sandi untuk ${actionLabel}:`);
+  if (input === null) return false; // user membatalkan
+  if (input !== PROTECTED_ACTION_PASSWORD) {
+    showToast('Kata sandi salah', 'fa-lock', 'error');
+    return false;
+  }
+  return true;
+}
+
+// ===== IMPORT / EXPORT DATABASE (JSON) =====
+function triggerImport() {
+  document.getElementById('importFileInput').click();
+}
+
+function handleImportFile(event) {
+  const input = event.target;
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    let parsed;
+    try {
+      parsed = JSON.parse(e.target.result);
+    } catch (err) {
+      showToast('File bukan JSON yang valid', 'fa-triangle-exclamation', 'error');
+      input.value = '';
+      return;
+    }
+
+    // Validasi struktur agar sesuai dengan format exportan aplikasi ini
+    // (data.equipment, data.components, dst) - TIDAK ada field yang diubah/ditambah/dihapus
+    if (!parsed || typeof parsed !== 'object' || !parsed.data || typeof parsed.data !== 'object') {
+      showToast('Struktur file tidak sesuai format PLTU Knowledge OS', 'fa-triangle-exclamation', 'error');
+      input.value = '';
+      return;
+    }
+
+    const requiredKeys = ['equipment', 'components', 'electrical', 'instruments', 'systems', 'glossary', 'documents', 'photos'];
+    const missingKeys = requiredKeys.filter(k => !(k in parsed.data));
+    if (missingKeys.length) {
+      showToast('Data tidak lengkap, kategori hilang: ' + missingKeys.join(', '), 'fa-triangle-exclamation', 'error');
+      input.value = '';
+      return;
+    }
+
+    if (!confirm('Impor akan MENIMPA seluruh data yang sedang berjalan (lokal & Firestore) dengan isi file ini. Struktur dan isi file JSON ini akan dipertahankan apa adanya. Lanjutkan?')) {
+      input.value = '';
+      return;
+    }
+
+    // Terapkan persis seperti isi file, tanpa memodifikasi struktur atau kontennya
+    state.data = parsed.data;
+    state.bookmarks = Array.isArray(parsed.bookmarks) ? parsed.bookmarks : [];
+    state.notes = (parsed.notes && typeof parsed.notes === 'object') ? parsed.notes : {};
+    state.learningStatus = (parsed.learningStatus && typeof parsed.learningStatus === 'object') ? parsed.learningStatus : {};
+    state.recentlyViewed = Array.isArray(parsed.recentlyViewed) ? parsed.recentlyViewed : [];
+
+    // Simpan ke localStorage (cache offline) sekaligus sinkronkan ke Cloud Firestore
+    DB.save();
+
+    renderNav();
+    updateBookmarkCount();
+    router.navigate('dashboard');
+    showToast('Data berhasil diimpor', 'fa-file-import');
+    input.value = '';
+  };
+  reader.onerror = function() {
+    showToast('Gagal membaca file', 'fa-triangle-exclamation', 'error');
+    input.value = '';
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+function exportData() {
+  if (!checkPassword('mengekspor data')) return;
+
+  // Struktur export identik dengan struktur state/Firestore, tidak ada field yang diubah
+  const exportObj = {
+    data: state.data,
+    bookmarks: state.bookmarks,
+    notes: state.notes,
+    learningStatus: state.learningStatus,
+    recentlyViewed: state.recentlyViewed
+  };
+
+  const blob = new Blob([JSON.stringify(exportObj, null, 4)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const ts = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+  a.href = url;
+  a.download = `backup_pltu_${ts}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast('Data berhasil diekspor', 'fa-file-export');
+}
+
+// ===== AUTO SAVE & FILE UPLOAD =====
+function triggerAutoSave() {
+  clearTimeout(autoSaveTimer);
+  const status = document.getElementById('autoSaveStatus');
+  if (status) {
+    status.textContent = 'Menyimpan...';
+    status.style.opacity = '1';
+  }
+  autoSaveTimer = setTimeout(() => {
+    if (state.editingType && state.editingId) {
+      saveItem(state.editingType, state.editingId, true);
+    }
+  }, 800);
+}
+
+function handlePhotoUpload(inputId) {
+  const input = document.getElementById(inputId);
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    currentUploadedPhoto = e.target.result;
+    const preview = document.getElementById(inputId + '-preview');
+    if (preview) {
+      preview.src = currentUploadedPhoto;
+      preview.style.display = 'block';
+    }
+    triggerAutoSave();
+    showToast('Foto diunggah', 'fa-image');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== ROUTER =====
+const router = {
+  init() {
+    window.addEventListener('hashchange', () => this.handle());
+    this.handle();
+  },
+  navigate(path) {
+    window.location.hash = '#/' + path;
+    if (window.innerWidth <= 768) {
+      document.getElementById('sidebar').classList.remove('open');
+    }
+  },
+  parse() {
+    const hash = window.location.hash.slice(2) || '';
+    return hash.split('/').filter(p => p);
+  },
+  handle() {
+    const parts = this.parse();
+    if (parts.length === 0) return views.dashboard();
+    if (parts[0] === 'bookmarks') return views.bookmarks();
+    const type = parts[0];
+    if (TYPE_META[type]) {
+      if (parts.length === 1) return views.list(type);
+      if (parts.length === 2) return views.detail(type, parts[1]);
+    }
+    views.dashboard();
+  }
+};
+
+// ===== VIEWS =====
+const views = {
+  dashboard() {
+    const stats = getStats();
+    const allItems = getAllItems();
+    const learningCount = Object.values(state.learningStatus).filter(s => s && s !== 'none').length;
+    const masteredCount = Object.values(state.learningStatus).filter(s => s === 'mastered').length;
+    const learnableItems = allItems.filter(i => ['equipment','components','electrical','instruments','systems'].includes(i.type)).length;
+    const learningPercent = learnableItems > 0 ? Math.round((learningCount / learnableItems) * 100) : 0;
+    const totalCount = allItems.length;
+    
+    const random = getRandomKnowledge();
+    const recent = state.recentlyViewed.slice(0, 6).map(r => {
+      const item = findItem(r.type, r.id);
+      return item ? { ...item, type: r.type } : null;
+    }).filter(Boolean);
+
+    let particles = '';
+    for (let i = 0; i < 8; i++) {
+      const left = Math.random() * 100;
+      const delay = Math.random() * 8;
+      const duration = 6 + Math.random() * 4;
+      particles += `<div class="steam-particle" style="left:${left}%;animation-delay:${delay}s;animation-duration:${duration}s;"></div>`;
+    }
+
+    const statsCards = [
+      { type: 'equipment', value: stats.equipment, label: 'Equipment', icon: 'fa-cog', color: 'orange' },
+      { type: 'components', value: stats.components, label: 'Component', icon: 'fa-microchip', color: 'cyan' },
+      { type: 'electrical', value: stats.electrical, label: 'Electrical', icon: 'fa-bolt', color: 'yellow' },
+      { type: 'instruments', value: stats.instruments, label: 'Instrument', icon: 'fa-tachometer-alt', color: 'pink' },
+      { type: 'systems', value: stats.systems, label: 'System', icon: 'fa-project-diagram', color: 'green' },
+      { type: 'glossary', value: stats.glossary, label: 'Glossary', icon: 'fa-book', color: 'red' },
+      { type: 'documents', value: stats.documents, label: 'Document', icon: 'fa-file-alt', color: 'orange' },
+      { type: 'photos', value: stats.photos, label: 'Photo', icon: 'fa-image', color: 'cyan' }
+    ];
+
+    const isEmpty = totalCount === 0;
+
+    document.getElementById('content').innerHTML = `
+      <div class="fade-in">
+        <div class="hero">
+          ${particles}
+          <div class="hero-content">
+            <div class="hero-tag"><i class="fas fa-circle" style="font-size:6px"></i> OFFLINE ENCYCLOPEDIA</div>
+            <h1>PLTU Knowledge OS</h1>
+            <p>Sistem pengetahuan pribadi tentang Pembangkit Listrik Tenaga Uap. Jelajahi equipment, komponen, sistem, dan istilah teknis dalam satu platform yang saling terhubung layaknya Wikipedia khusus PLTU.</p>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="hero-stat-value">${totalCount}</div>
+                <div class="hero-stat-label">Total Artikel</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">${stats.bookmarks}</div>
+                <div class="hero-stat-label">Bookmark</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">${learningCount}</div>
+                <div class="hero-stat-label">Sedang Dipelajari</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">${masteredCount}</div>
+                <div class="hero-stat-label">Sangat Memahami</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        ${isEmpty ? `
+          <div class="welcome-banner">
+            <div class="welcome-banner-icon"><i class="fas fa-rocket"></i></div>
+            <div style="flex:1;">
+              <h3>Selamat Datang! Database Anda masih kosong</h3>
+              <p>Mulai bangun ensiklopedia PLTU pribadi Anda dengan menambahkan entri pertama. Anda bebas menambahkan equipment, komponen, sistem, istilah, dokumen, dan foto lapangan. Semua data disimpan offline di browser Anda.</p>
+              <div class="welcome-banner-actions">
+                <button class="btn btn-primary btn-sm" onclick="openEditor('equipment')"><i class="fas fa-plus"></i> Tambah Equipment Pertama</button>
+                <button class="btn btn-ghost btn-sm" onclick="openQuickAdd()"><i class="fas fa-list"></i> Pilih Kategori Lain</button>
+                <button class="btn btn-ghost btn-sm" onclick="DB.reset()" title="Reset database"><i class="fas fa-rotate-left"></i></button>
+              </div>
+            </div>
+          </div>
+        ` : ''}
+
+        <div class="stats-grid">
+          ${statsCards.map(s => `
+            <div class="stat-card" data-color="${s.color}" onclick="router.navigate('${s.type}')">
+              <div class="stat-card-icon" style="background:${getTypeMeta(s.type).color}20;color:${getTypeMeta(s.type).color}">
+                <i class="fas ${s.icon}"></i>
+              </div>
+              <div class="stat-card-value">${s.value}</div>
+              <div class="stat-card-label">${s.label}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:24px;margin-bottom:24px;" class="dashboard-grid">
+          <div>
+            ${random ? `
+              <div class="section">
+                <div class="section-header">
+                  <h2 class="section-title"><span class="section-title-bar"></span>Random Knowledge</h2>
+                  <button class="btn btn-ghost btn-sm" onclick="openRandom()"><i class="fas fa-dice"></i> Shuffle</button>
+                </div>
+                <div class="random-card">
+                  <div class="random-card-header">
+                    <div class="random-card-label">
+                      <i class="fas ${getTypeMeta(random.type).icon}"></i>
+                      ${getTypeMeta(random.type).label}
+                    </div>
+                    <span class="status-badge status-${getStatus(random.type, random.id)}">${getStatusLabel(getStatus(random.type, random.id))}</span>
+                  </div>
+                  <h3 class="random-card-title" onclick="router.navigate('${random.type}/${random.id}')">${random.name}</h3>
+                  <p class="random-card-desc">${random.description || random.desc || ''}</p>
+                  <button class="btn btn-primary btn-sm" onclick="router.navigate('${random.type}/${random.id}')">
+                    <i class="fas fa-arrow-right"></i> Pelajari Sekarang
+                  </button>
+                </div>
+              </div>
+            ` : ''}
+
+            ${recent.length > 0 ? `
+              <div class="section">
+                <div class="section-header">
+                  <h2 class="section-title"><span class="section-title-bar"></span>Terakhir Dipelajari</h2>
+                </div>
+                <div class="list-grid">
+                  ${recent.map(item => renderListItem(item, item.type)).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+
+          <div>
+            <div class="section">
+              <div class="section-header">
+                <h2 class="section-title"><span class="section-title-bar"></span>Progress Belajar</h2>
+              </div>
+              <div class="widget">
+                <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">
+                  <span style="font-size:13px;color:var(--muted);">Tingkat Pemahaman</span>
+                  <span class="mono" style="color:var(--accent);font-weight:600;">${learningPercent}%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:${learningPercent}%"></div></div>
+                <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                    <span class="status-badge status-mastered">Sangat Memahami</span>
+                    <span class="mono">${masteredCount}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                    <span class="status-badge status-understood">Sudah Dipahami</span>
+                    <span class="mono">${Object.values(state.learningStatus).filter(s => s === 'understood').length}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                    <span class="status-badge status-learning">Sedang Dipelajari</span>
+                    <span class="mono">${Object.values(state.learningStatus).filter(s => s === 'learning').length}</span>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+                    <span class="status-badge status-none">Belum Dipelajari</span>
+                    <span class="mono">${Math.max(0, learnableItems - learningCount)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section">
+              <div class="section-header">
+                <h2 class="section-title"><span class="section-title-bar"></span>Quick Access</h2>
+              </div>
+              <div class="widget">
+                <div class="related-list">
+                  ${NAV_GROUPS[1].items.map(item => `
+                    <a class="related-item" onclick="router.navigate('${item.id}')">
+                      <div class="related-item-icon"><i class="fas ${item.icon}"></i></div>
+                      <span>${item.label}</span>
+                      <span class="related-item-type">${state.data[item.id].length}</span>
+                    </a>
+                  `).join('')}
+                  ${NAV_GROUPS[2].items.map(item => `
+                    <a class="related-item" onclick="router.navigate('${item.id}')">
+                      <div class="related-item-icon"><i class="fas ${item.icon}"></i></div>
+                      <span>${item.label}</span>
+                      <span class="related-item-type">${state.data[item.id].length}</span>
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    renderBreadcrumb([]);
+    updateActiveNav('dashboard');
+  },
+
+  list(type) {
+    const items = state.data[type] || [];
+    const meta = getTypeMeta(type);
+    const tags = new Set();
+    items.forEach(item => item.tags && item.tags.forEach(t => tags.add(t)));
+    const tagList = Array.from(tags).sort();
+
+    document.getElementById('content').innerHTML = `
+      <div class="fade-in">
+        <div class="section-header">
+          <h2 class="section-title"><span class="section-title-bar" style="background:${meta.color}"></span>${meta.label} Database</h2>
+          <div class="section-actions">
+            <button class="btn btn-primary btn-sm" onclick="openEditor('${type}')"><i class="fas fa-plus"></i> Tambah Entri</button>
+          </div>
+        </div>
+        <p style="color:var(--muted);margin:0 0 20px;font-size:13px;">${items.length} entri tersimpan</p>
+
+        ${tagList.length > 0 ? `
+          <div class="filter-bar" id="filterBar">
+            <span class="filter-chip active" onclick="filterList('${type}', null, this)">Semua <span class="count">${items.length}</span></span>
+            ${tagList.map(t => {
+              const count = items.filter(i => i.tags && i.tags.includes(t)).length;
+              return `<span class="filter-chip" onclick="filterList('${type}', '${t.replace(/'/g, "\\'")}', this)">${t} <span class="count">${count}</span></span>`;
+            }).join('')}
+          </div>
+        ` : ''}
+
+        <div id="listContainer">
+          ${items.length === 0 ? renderEmpty(type) : renderListByType(type, items)}
+        </div>
+      </div>
+    `;
+    
+    renderBreadcrumb([{ label: meta.label }]);
+    updateActiveNav(type);
+  },
+
+  detail(type, id) {
+    const item = findItem(type, id);
+    if (!item) {
+      document.getElementById('content').innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon"><i class="fas fa-exclamation"></i></div>
+          <h3>Artikel tidak ditemukan</h3>
+          <p>Item yang Anda cari tidak ada dalam database.</p>
+          <button class="btn btn-primary" onclick="router.navigate('${type}')">Kembali ke daftar</button>
+        </div>
+      `;
+      return;
+    }
+
+    const meta = getTypeMeta(type);
+    const status = getStatus(type, id);
+    const bookmarked = isBookmarked(type, id);
+    addRecentlyViewed(type, id);
+
+    let content = '';
+    
+    if (type === 'glossary') {
+      content = renderGlossaryDetail(item, type);
+    } else if (type === 'documents') {
+      content = renderDocumentDetail(item, type);
+    } else if (type === 'photos') {
+      content = renderPhotoDetail(item, type);
+    } else {
+      content = renderStandardDetail(item, type);
+    }
+
+    document.getElementById('content').innerHTML = `
+      <div class="fade-in">
+        <div class="detail-header">
+          <div class="detail-category">
+            <i class="fas ${meta.icon}"></i>
+            ${meta.label} ${item.category ? '· ' + item.category : ''}
+          </div>
+          <h1 class="detail-title">${item.name || item.title || item.abbr}</h1>
+          <div class="detail-meta">
+            ${item.tags ? item.tags.map(t => `<span class="tag" onclick="router.navigate('${type}'); setTimeout(()=>{const chips=document.querySelectorAll('#filterBar .filter-chip'); chips.forEach(c=>{if(c.textContent.trim().startsWith('${t}')) c.click();});},100);">${t}</span>`).join('') : ''}
+          </div>
+          <div class="detail-actions">
+            <button class="btn ${bookmarked ? 'btn-primary' : 'btn-ghost'} btn-sm" onclick="toggleBookmark('${type}','${id}'); router.handle();">
+              <i class="fas fa-bookmark"></i> ${bookmarked ? 'Tersimpan' : 'Bookmark'}
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="openEditor('${type}','${id}')">
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <button class="btn btn-ghost btn-sm" onclick="deleteItem('${type}','${id}')">
+              <i class="fas fa-trash"></i> Hapus
+            </button>
+          </div>
+        </div>
+        <div class="detail-layout">
+          <div class="detail-main">
+            ${content}
+            ${item.related && item.related.length > 0 ? renderKnowledgeMap(item, type) : ''}
+          </div>
+          <div class="detail-sidebar">
+            ${renderSidebar(item, type, id, status, bookmarked)}
+          </div>
+        </div>
+      </div>
+    `;
+
+    renderBreadcrumb([
+      { label: meta.label, path: type },
+      { label: item.name || item.title || item.abbr }
+    ]);
+    updateActiveNav(type);
+  },
+
+  bookmarks() {
+    const items = state.bookmarks.map(b => {
+      const item = findItem(b.type, b.id);
+      return item ? { ...item, type: b.type } : null;
+    }).filter(Boolean);
+
+    document.getElementById('content').innerHTML = `
+      <div class="fade-in">
+        <div class="section-header">
+          <h2 class="section-title"><span class="section-title-bar"></span>Bookmark</h2>
+        </div>
+        <p style="color:var(--muted);margin:0 0 20px;font-size:13px;">${items.length} artikel tersimpan</p>
+        ${items.length === 0 ? `
+          <div class="empty-state">
+            <div class="empty-state-icon"><i class="fas fa-bookmark"></i></div>
+            <h3>Belum ada bookmark</h3>
+            <p>Simpan artikel favorit untuk diakses lebih cepat.</p>
+            <button class="btn btn-primary" onclick="router.navigate('dashboard')">Jelajahi Database</button>
+          </div>
+        ` : `\
+          <div class="list-grid">
+            ${items.map(item => renderListItem(item, item.type)).join('')}
+          </div>
+        `}
+      </div>
+    `;
+    renderBreadcrumb([{ label: 'Bookmark' }]);
+    updateActiveNav('bookmarks');
+  }
+};
+
+function getStatusLabel(status) {
+  const labels = {
+    'none': 'Belum Dipelajari',
+    'learning': 'Sedang Dipelajari',
+    'understood': 'Sudah Dipahami',
+    'mastered': 'Sangat Memahami'
+  };
+  return labels[status] || 'Belum Dipelajari';
+}
+
+function renderListItem(item, type) {
+  const meta = getTypeMeta(type);
+  const status = getStatus(type, item.id);
+  const desc = item.description || item.desc || '';
+  
+  if (type === 'glossary') {
+    return `
+      <div class="list-card" onclick="router.navigate('${type}/${item.id}')">
+        <div class="list-card-header">
+          <h3 class="list-card-title">${item.abbr}</h3>
+          <div class="list-card-icon"><i class="fas ${meta.icon}"></i></div>
+        </div>
+        <div style="font-size:13px;color:var(--text);margin-bottom:8px;font-weight:500;">${item.full}</div>
+        <div class="list-card-desc">${item.desc}</div>
+        <div class="list-card-tags">
+          <span class="tag">${meta.label}</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (type === 'documents') {
+    return `
+      <div class="list-card" onclick="router.navigate('${type}/${item.id}')">
+        <div class="list-card-header">
+          <h3 class="list-card-title">${item.title}</h3>
+          <div class="list-card-icon"><i class="fas ${meta.icon}"></i></div>
+        </div>
+        <div class="list-card-desc">${item.desc}</div>
+        <div class="list-card-footer">
+          <span class="tag orange">${item.type}</span>
+          <span class="status-badge status-${status}">${getStatusLabel(status)}</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (type === 'photos') {
+    return `
+      <div class="list-card" onclick="router.navigate('${type}/${item.id}')">
+        <div style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;margin-bottom:12px;background:var(--surface-3);">
+          <img src="${item.photoUrl || 'https://picsum.photos/seed/' + item.id + '/400/225'}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.src='https://picsum.photos/seed/'+this.dataset.seed+'/400/225'">
+        </div>
+        <h3 class="list-card-title">${item.title}</h3>
+        <div class="list-card-desc">${item.desc}</div>
+        <div class="list-card-footer">
+          <span class="mono" style="font-size:11px;color:var(--muted);">${item.date}</span>
+          <span class="status-badge status-${status}">${getStatusLabel(status)}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="list-card" onclick="router.navigate('${type}/${item.id}')">
+      <div class="list-card-header">
+        <h3 class="list-card-title">${item.name}</h3>
+        <div class="list-card-icon"><i class="fas ${meta.icon}"></i></div>
+      </div>
+      <div class="list-card-desc">${desc}</div>
+      <div class="list-card-footer">
+        <div class="list-card-tags">
+          ${(item.tags || []).slice(0,2).map(t => `<span class="tag">${t}</span>`).join('')}
+        </div>
+        <span class="status-badge status-${status}">${getStatusLabel(status)}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderListByType(type, items) {
+  if (type === 'glossary') {
+    return `
+      <div class="glossary-grid">
+        ${items.map(item => `
+          <div class="glossary-card" onclick="router.navigate('glossary/${item.id}')">
+            <div class="glossary-abbr">${item.abbr}</div>
+            <div class="glossary-full">${item.full}</div>
+            <div class="glossary-desc">${item.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  if (type === 'photos') {
+    return `
+      <div class="photo-grid">
+        ${items.map(item => `
+          <div class="photo-card" onclick="router.navigate('photos/${item.id}')">
+            <div class="photo-img">
+              <img src="${item.photoUrl || 'https://picsum.photos/seed/' + item.id + '/400/300'}" alt="${item.title}" loading="lazy" onerror="this.src='https://picsum.photos/seed/'+this.dataset.seed+'/400/300'">
+            </div>
+            <div class="photo-info">
+              <div class="photo-title">${item.title}</div>
+              <div class="photo-meta">
+                <span><i class="fas fa-map-marker-alt"></i> ${item.location || '-'}</span>
+                <span><i class="fas fa-calendar"></i> ${item.date || '-'}</span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  if (type === 'documents') {
+    return `
+      <div class="doc-list">
+        ${items.map(item => {
+          const docClass = item.type && item.type.toLowerCase().includes('word') ? 'word' :
+                          item.type && item.type.toLowerCase().includes('excel') ? 'excel' :
+                          item.type && item.type.toLowerCase().includes('drawing') ? 'drawing' : 'pdf';
+          const docIcon = docClass === 'word' ? 'fa-file-word' :
+                         docClass === 'excel' ? 'fa-file-excel' :
+                         docClass === 'drawing' ? 'fa-drafting-compass' : 'fa-file-pdf';
+          return `
+            <div class="doc-item" onclick="router.navigate('documents/${item.id}')">
+              <div class="doc-icon ${docClass}"><i class="fas ${docIcon}"></i></div>
+              <div class="doc-info">
+                <div class="doc-title">${item.title}</div>
+                <div class="doc-meta">${item.type || '-'} · ${item.category || '-'} · ${item.fileName || '-'}</div>
+              </div>
+              <i class="fas fa-chevron-right" style="color:var(--muted);"></i>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+  return `<div class="list-grid">${items.map(item => renderListItem(item, type)).join('')}</div>`;
+}
+
+function renderEmpty(type) {
+  const meta = getTypeMeta(type);
+  return `
+    <div class="empty-state">
+      <div class="empty-state-icon"><i class="fas ${meta.icon}"></i></div>
+      <h3>Belum ada entri ${meta.label}</h3>
+      <p>Database ${meta.label} masih kosong. Mulai tambahkan data pertama Anda sekarang.</p>
+      <button class="btn btn-primary" onclick="openEditor('${type}')"><i class="fas fa-plus"></i> Tambah Entri Pertama</button>
+    </div>
+  `;
+}
+
+function renderStandardDetail(item, type) {
+  let html = '';
+  
+  if (item.photo) {
+    html += `
+      <div style="aspect-ratio:16/6;border-radius:14px;overflow:hidden;margin-bottom:16px;background:var(--surface-3);position:relative;">
+        <img src="${item.photo}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);"></div>
+      </div>
+    `;
+  }
+  
+  if (item.description) {
+    html += `<div class="detail-section"><p style="font-size:15px;color:rgba(255,255,255,0.95);">${processContent(item.description)}</p></div>`;
+  }
+  
+  if (item.function) {
+    html += `<div class="detail-section"><h3><i class="fas fa-bullseye"></i>Fungsi</h3><p>${processContent(item.function)}</p></div>`;
+  }
+  if (item.principle) {
+    html += `<div class="detail-section"><h3><i class="fas fa-atom"></i>Prinsip Kerja</h3><p>${processContent(item.principle)}</p></div>`;
+  }
+  if (item.workingDetail) {
+    html += `<div class="detail-section"><h3><i class="fas fa-cogs"></i>Cara Kerja Detail</h3><p>${processContent(item.workingDetail)}</p></div>`;
+  }
+  if (item.input || item.output) {
+    html += `<div class="detail-section"><h3><i class="fas fa-exchange-alt"></i>Input & Output</h3>`;
+    if (item.input) html += `<p><strong style="color:var(--cyan);">Input:</strong> ${processContent(item.input)}</p>`;
+    if (item.output) html += `<p><strong style="color:var(--accent);">Output:</strong> ${processContent(item.output)}</p>`;
+    html += `</div>`;
+  }
+  if (item.parameters && item.parameters.length > 0) {
+    html += `
+      <div class="detail-section">
+        <h3><i class="fas fa-chart-line"></i>Parameter Operasi</h3>
+        <table class="param-table">
+          <thead><tr><th>Parameter</th><th>Nilai</th><th>Satuan</th></tr></thead>
+          <tbody>
+            ${item.parameters.filter(p => p.name).map(p => `<tr><td>${p.name}</td><td class="value">${p.value}</td><td>${p.unit}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  if (item.components && item.components.length > 0) {
+    html += `<div class="detail-section"><h3><i class="fas fa-puzzle-piece"></i>Komponen Penyusun</h3><ul>${item.components.map(c => `<li>${c}</li>`).join('')}</ul></div>`;
+  }
+  if (item.disturbances && item.disturbances.length > 0) {
+    html += `<div class="detail-section"><h3><i class="fas fa-exclamation-triangle"></i>Gangguan yang Sering Terjadi</h3><ul>${item.disturbances.map(d => `<li>${d}</li>`).join('')}</ul></div>`;
+  }
+  if (item.causes && item.causes.length > 0) {
+    html += `<div class="detail-section"><h3><i class="fas fa-search"></i>Penyebab Kerusakan</h3><ul>${item.causes.map(c => `<li>${c}</li>`).join('')}</ul></div>`;
+  }
+  if (item.solutions && item.solutions.length > 0) {
+    html += `<div class="detail-section"><h3><i class="fas fa-wrench"></i>Solusi & Tindakan</h3><ul>${item.solutions.map(s => `<li>${s}</li>`).join('')}</ul></div>`;
+  }
+  if (item.maintenance && item.maintenance.length > 0) {
+    html += `<div class="detail-section"><h3><i class="fas fa-tools"></i>Metode Maintenance</h3><ul>${item.maintenance.map(m => `<li>${m}</li>`).join('')}</ul></div>`;
+  }
+  if (item.sop) {
+    html += `<div class="detail-section"><h3><i class="fas fa-clipboard-list"></i>SOP</h3><p>${processContent(item.sop)}</p></div>`;
+  }
+  if (item.manual) {
+    html += `<div class="detail-section"><h3><i class="fas fa-book-open"></i>Manual</h3><p>${processContent(item.manual)}</p></div>`;
+  }
+  if (item.fieldDocs && item.fieldDocs.length > 0) {
+    html += `<div class="detail-section"><h3><i class="fas fa-camera"></i>Dokumentasi Lapangan</h3><ul>${item.fieldDocs.map(d => `<li><strong>${d.title}</strong> - ${d.desc}</li>`).join('')}</ul></div>`;
+  }
+  
+  return html;
+}
+
+function renderGlossaryDetail(item, type) {
+  return `
+    <div class="detail-section">
+      <h3><i class="fas fa-book"></i>Kepanjangan</h3>
+      <p style="font-size:18px;color:var(--accent);font-weight:600;">${item.full}</p>
+    </div>
+    <div class="detail-section">
+      <h3><i class="fas fa-info-circle"></i>Penjelasan</h3>
+      <p>${processContent(item.desc)}</p>
+    </div>
+  `;
+}
+
+function renderDocumentDetail(item, type) {
+  return `
+    <div class="detail-section">
+      <h3><i class="fas fa-file-alt"></i>Informasi Dokumen</h3>
+      <table class="param-table">
+        <tr><td>Judul</td><td class="value">${item.title}</td></tr>
+        <tr><td>Tipe</td><td class="value">${item.type || '-'}</td></tr>
+        <tr><td>Kategori</td><td class="value">${item.category || '-'}</td></tr>
+        <tr><td>File Name</td><td class="value mono">${item.fileName || '-'}</td></tr>
+      </table>
+    </div>
+    <div class="detail-section">
+      <h3><i class="fas fa-align-left"></i>Deskripsi</h3>
+      <p>${processContent(item.desc)}</p>
+    </div>
+    <div class="detail-section">
+      <h3><i class="fas fa-download"></i>Aksi</h3>
+      <p style="color:var(--muted);font-style:italic;">Dokumen offline. File asli dapat diakses melalui folder lokal atau repository dokumen.</p>
+      <button class="btn btn-primary" onclick="showToast('Dokumen tersimpan offline','fa-file-alt')"><i class="fas fa-external-link-alt"></i> Buka Dokumen</button>
+    </div>
+  `;
+}
+
+function renderPhotoDetail(item, type) {
+  return `
+    <div style="aspect-ratio:16/9;border-radius:14px;overflow:hidden;margin-bottom:16px;background:var(--surface-3);">
+      <img src="${item.photoUrl || 'https://picsum.photos/seed/' + item.id + '/800/450'}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='https://picsum.photos/seed/'+this.dataset.seed+'/800/450'">
+    </div>
+    <div class="detail-section">
+      <h3><i class="fas fa-info-circle"></i>Informasi Foto</h3>
+      <table class="param-table">
+        <tr><td>Judul</td><td class="value">${item.title}</td></tr>
+        <tr><td>Lokasi</td><td class="value">${item.location || '-'}</td></tr>
+        <tr><td>Equipment</td><td class="value">${item.equipment || '-'}</td></tr>
+        <tr><td>Tanggal</td><td class="value mono">${item.date || '-'}</td></tr>
+      </table>
+    </div>
+    <div class="detail-section">
+      <h3><i class="fas fa-align-left"></i>Keterangan</h3>
+      <p>${processContent(item.desc)}</p>
+    </div>
+    ${item.tags && item.tags.length ? `
+      <div class="detail-section">
+        <h3><i class="fas fa-tags"></i>Tag</h3>
+        <div>${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderKnowledgeMap(item, type) {
+  const related = (item.related || []).map(id => {
+    const allTypes = Object.keys(state.data);
+    for (const t of allTypes) {
+      const found = state.data[t].find(i => i.id === id);
+      if (found) return { ...found, type: t };
+    }
+    return null;
+  }).filter(Boolean);
+  
+  if (related.length === 0) return '';
+  
+  return `
+    <div class="knowledge-map">
+      <h3 style="font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:600;margin:0 0 16px;color:var(--accent);text-transform:uppercase;letter-spacing:0.04em;display:flex;align-items:center;gap:10px;">
+        <i class="fas fa-project-diagram" style="font-size:13px;width:24px;height:24px;background:var(--accent-dim);border-radius:6px;display:flex;align-items:center;justify-content:center;"></i>
+        Knowledge Map - Hubungan Antar Artikel
+      </h3>
+      <div class="map-flow">
+        <span class="map-node current">${item.name || item.title || item.abbr}</span>
+        ${related.map(r => `
+          <span class="map-arrow"><i class="fas fa-arrow-right"></i></span>
+          <span class="map-node" onclick="router.navigate('${r.type}/${r.id}')">${r.name || r.abbr || r.title}</span>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderSidebar(item, type, id, status, bookmarked) {
+  const related = (item.related || []).map(rid => {
+    const allTypes = Object.keys(state.data);
+    for (const t of allTypes) {
+      const found = state.data[t].find(i => i.id === rid);
+      if (found) return { ...found, type: t };
+    }
+    return null;
+  }).filter(Boolean);
+
+  let html = `
+    <div class="widget">
+      <h3 class="widget-title"><i class="fas fa-graduation-cap"></i>Status Pembelajaran</h3>
+      <div class="status-selector">
+        <div class="status-option status-none ${status === 'none' || !status ? 'active' : ''}" onclick="setStatus('${type}','${id}','none'); router.handle();">Belum</div>
+        <div class="status-option status-learning ${status === 'learning' ? 'active' : ''}" onclick="setStatus('${type}','${id}','learning'); router.handle();">Belajar</div>
+        <div class="status-option status-understood ${status === 'understood' ? 'active' : ''}" onclick="setStatus('${type}','${id}','understood'); router.handle();">Paham</div>
+        <div class="status-option status-mastered ${status === 'mastered' ? 'active' : ''}" onclick="setStatus('${type}','${id}','mastered'); router.handle();">Sangat</div>
+      </div>
+    </div>
+  `;
+
+  html += `
+    <div class="widget">
+      <h3 class="widget-title"><i class="fas fa-sticky-note"></i>Catatan Pribadi</h3>
+      <textarea class="note-editor" id="noteArea" placeholder="Tulis observasi pribadi di sini...">${getNotes(type, id)}</textarea>
+      <div class="note-save-bar">
+        <span><i class="fas fa-save"></i> Otomatis tersimpan</span>
+        <span id="noteStatus" class="mono"></span>
+      </div>
+    </div>
+  `;
+
+  if (related.length > 0) {
+    html += `
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-link"></i>Hubungan Artikel</h3>
+        <div class="related-list">
+          ${related.map(r => `
+            <a class="related-item" onclick="router.navigate('${r.type}/${r.id}')">
+              <div class="related-item-icon"><i class="fas ${getTypeMeta(r.type).icon}"></i></div>
+              <span>${r.name || r.abbr || r.title}</span>
+              <span class="related-item-type">${getTypeMeta(r.type).label}</span>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  if (item.tags && item.tags.length > 0) {
+    html += `
+      <div class="widget">
+        <h3 class="widget-title"><i class="fas fa-tags"></i>Tag</h3>
+        <div>${item.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+    `;
+  }
+
+  setTimeout(() => {
+    const noteArea = document.getElementById('noteArea');
+    if (noteArea) {
+      let saveTimer = null;
+      noteArea.addEventListener('input', () => {
+        const noteStatus = document.getElementById('noteStatus');
+        if (noteStatus) noteStatus.textContent = 'Menyimpan...';
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(() => {
+          setNotes(type, id, noteArea.value);
+          if (noteStatus) noteStatus.textContent = '✓ Tersimpan';
+        }, 500);
+      });
+    }
+  }, 100);
+
+  return html;
+}
+
+function renderBreadcrumb(items) {
+  const html = items.map((item, i) => {
+    if (i === items.length - 1) {
+      return `<span class="current">${item.label}</span>`;
+    }
+    return `<a onclick="router.navigate('${item.path}')">${item.label}</a><span class="sep"><i class="fas fa-chevron-right"></i></span>`;
+  }).join('');
+  document.getElementById('breadcrumb').innerHTML = `<a onclick="router.navigate('dashboard')"><i class="fas fa-home"></i></a>${items.length > 0 ? '<span class="sep"><i class="fas fa-chevron-right"></i></span>' : ''}${html}`;
+}
+
+function updateActiveNav(id) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.querySelector(`.nav-item[data-id="${id}"]`);
+  if (navEl) navEl.classList.add('active');
+}
+
+function renderNav() {
+  const counts = {
+    dashboard: '-',
+    bookmarks: state.bookmarks.length,
+    equipment: state.data.equipment.length,
+    components: state.data.components.length,
+    electrical: state.data.electrical.length,
+    instruments: state.data.instruments.length,
+    systems: state.data.systems.length,
+    glossary: state.data.glossary.length,
+    documents: state.data.documents.length,
+    photos: state.data.photos.length
+  };
+  
+  const html = NAV_GROUPS.map(group => `
+    <div class="nav-section">
+      <div class="nav-section-title">${group.title}</div>
+      ${group.items.map(item => `
+        <a class="nav-item" data-id="${item.id}" onclick="router.navigate('${item.id}')">
+          <span class="nav-item-icon"><i class="fas ${item.icon}"></i></span>
+          <span>${item.label}</span>
+          ${counts[item.id] !== undefined && counts[item.id] !== '-' ? `<span class="nav-item-badge">${counts[item.id]}</span>` : ''}
+        </a>
+      `).join('')}
+    </div>
+  `).join('');
+  
+  document.getElementById('nav').innerHTML = html;
+}
+
+// ===== SEARCH =====
+function performSearch(query) {
+  if (!query.trim()) return [];
+  const results = [];
+  const q = query.toLowerCase();
+  Object.keys(state.data).forEach(type => {
+    state.data[type].forEach(item => {
+      let score = 0;
+      let matchedText = '';
+      const name = (item.name || item.title || item.abbr || '').toLowerCase();
+      const desc = (item.description || item.desc || '').toLowerCase();
+      
+      if (name.includes(q)) {
+        score = 100;
+        if (name.startsWith(q)) score += 50;
+        matchedText = item.description || item.desc || '';
+      } else if (desc.includes(q)) {
+        score = 50;
+        const idx = desc.indexOf(q);
+        const start = Math.max(0, idx - 40);
+        const end = Math.min(desc.length, idx + 80);
+        matchedText = (start > 0 ? '...' : '') + desc.substring(start, end) + (end < desc.length ? '...' : '');
+      } else if (item.tags && item.tags.some(t => t.toLowerCase().includes(q))) {
+        score = 30;
+        matchedText = item.description || item.desc || '';
+      }
+      
+      if (score > 0) {
+        results.push({ ...item, type, score, matchedText });
+      }
+    });
+  });
+  return results.sort((a, b) => b.score - a.score).slice(0, 30);
+}
+
+function highlightMatch(text, query) {
+  if (!text) return '';
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<span class="search-highlight">$1</span>');
+}
+
+function renderSearchResults(query) {
+  const results = performSearch(query);
+  const container = document.getElementById('searchResults');
+  
+  if (!query.trim()) {
+    container.innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);"><i class="fas fa-search" style="font-size:32px;margin-bottom:12px;opacity:0.3;"></i><div>Ketik untuk mencari di seluruh database</div></div>`;
+    return;
+  }
+  
+  if (results.length === 0) {
+    container.innerHTML = `<div style="padding:40px;text-align:center;color:var(--muted);"><i class="fas fa-search" style="font-size:32px;margin-bottom:12px;opacity:0.3;"></i><div>Tidak ada hasil untuk "<strong style="color:var(--text)">${query}</strong>"</div></div>`;
+    return;
+  }
+  
+  const grouped = {};
+  results.forEach(r => {
+    if (!grouped[r.type]) grouped[r.type] = [];
+    grouped[r.type].push(r);
+  });
+  
+  let html = '';
+  Object.keys(grouped).forEach(type => {
+    const meta = getTypeMeta(type);
+    html += `<div class="search-group-title">${meta.label} (${grouped[type].length})</div>`;
+    grouped[type].forEach(item => {
+      const name = item.name || item.title || item.abbr;
+      const desc = item.matchedText || item.description || item.desc || '';
+      html += `
+        <div class="search-result-item" onclick="closeSearch(); router.navigate('${type}/${item.id}')">
+          <div class="search-result-icon" style="color:${meta.color};background:${meta.color}20;"><i class="fas ${meta.icon}"></i></div>
+          <div class="search-result-content">
+            <div class="search-result-title">${highlightMatch(name, query)}</div>
+            <div class="search-result-desc">${highlightMatch(desc.substring(0, 100), query)}</div>
+          </div>
+          <span class="search-result-type">${meta.label}</span>
+        </div>
+      `;
+    });
+  });
+  
+  container.innerHTML = html;
+}
+
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('active');
+  setTimeout(() => document.getElementById('searchModalInput').focus(), 100);
+  renderSearchResults('');
+}
+
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('active');
+}
+
+function openRandom() {
+  const r = getRandomKnowledge();
+  if (r) {
+    router.navigate(`${r.type}/${r.id}`);
+  } else {
+    showToast('Database masih kosong. Tambahkan entri dulu.', 'fa-info-circle');
+  }
+}
+
+// ===== QUICK ADD (pilih kategori dulu) =====
+function openQuickAdd() {
+  const html = `
+    <p style="color:var(--muted);margin:0 0 18px;font-size:13px;">Pilih kategori entri yang ingin Anda tambahkan:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      ${Object.keys(TYPE_META).map(type => {
+        const meta = TYPE_META[type];
+        return `
+          <div onclick="closeModal(); setTimeout(()=>openEditor('${type}'),200);" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;" onmouseover="this.style.borderColor='var(--accent)';this.style.background='rgba(255,140,66,0.04)'" onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--bg)'">
+            <div style="width:40px;height:40px;border-radius:10px;background:${meta.color}20;color:${meta.color};display:flex;align-items:center;justify-content:center;font-size:16px;">
+              <i class="fas ${meta.icon}"></i>
+            </div>
+            <div>
+              <div style="font-weight:600;font-size:14px;">${meta.label}</div>
+              <div style="font-size:11px;color:var(--muted);">${state.data[type].length} entri</div>
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+  
+  document.getElementById('modalTitle').textContent = 'Tambah Entri Baru';
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalFooter').innerHTML = `<button class="btn btn-ghost" onclick="closeModal()">Batal</button>`;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+// ===== EDITOR =====
+function openEditor(type, id = null) {
+  const item = id ? findItem(type, id) : null;
+  const isNew = !item;
+  const meta = getTypeMeta(type);
+  
+  currentUploadedPhoto = '';
+  let editingItem;
+  if (isNew) {
+    editingItem = { id: generateId(type) };
+    state.data[type].push(editingItem);
+    DB.save();
+  } else {
+    editingItem = item;
+  }
+  
+  state.editingType = type;
+  state.editingId = editingItem.id;
+  state.editingIsNew = isNew;
+  
+  document.getElementById('modalTitle').textContent = `${isNew ? 'Tambah' : 'Edit'} ${meta.label}`;
+  
+  let fields = '';
+  
+  if (type === 'glossary') {
+    fields = `
+      <div class="form-group"><label class="form-label">Abbreviation <span style="color:var(--accent)">*</span></label><input class="form-input" id="f-abbr" value="${editingItem?.abbr || ''}" placeholder="CEP, BFP, ID Fan, dst"></div>
+      <div class="form-group"><label class="form-label">Kepanjangan <span style="color:var(--accent)">*</span></label><input class="form-input" id="f-full" value="${editingItem?.full || ''}" placeholder="Condensate Extraction Pump"></div>
+      <div class="form-group"><label class="form-label">Penjelasan</label><textarea class="form-textarea" id="f-desc" placeholder="Arti, fungsi, dan keterkaitan istilah...">${editingItem?.desc || ''}</textarea></div>
+    `;
+  } else if (type === 'documents') {
+    fields = `
+      <div class="form-group"><label class="form-label">Judul <span style="color:var(--accent)">*</span></label><input class="form-input" id="f-title" value="${editingItem?.title || ''}" placeholder="SOP Operasi Boiler Unit 1"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Tipe</label><input class="form-input" id="f-type" value="${editingItem?.type || 'SOP'}" placeholder="SOP / Manual / Datasheet / Drawing / P&ID"></div>
+        <div class="form-group"><label class="form-label">Kategori</label><input class="form-input" id="f-category" value="${editingItem?.category || ''}" placeholder="Operation / Maintenance / Equipment"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Nama File</label><input class="form-input" id="f-fileName" value="${editingItem?.fileName || ''}" placeholder="SOP-BOILER-U1.pdf"></div>
+      <div class="form-group"><label class="form-label">Deskripsi</label><textarea class="form-textarea" id="f-desc" placeholder="Ringkasan isi dokumen...">${editingItem?.desc || ''}</textarea></div>
+    `;
+  } else if (type === 'photos') {
+    fields = `
+      <div class="form-group"><label class="form-label">Judul <span style="color:var(--accent)">*</span></label><input class="form-input" id="f-title" value="${editingItem?.title || ''}" placeholder="Boiler Unit 1 Tampak Depan"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Lokasi</label><input class="form-input" id="f-location" value="${editingItem?.location || ''}" placeholder="Boiler Area"></div>
+        <div class="form-group"><label class="form-label">Equipment</label><input class="form-input" id="f-equipment" value="${editingItem?.equipment || ''}" placeholder="Boiler"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Tanggal</label><input class="form-input" id="f-date" type="date" value="${editingItem?.date || ''}"></div>
+        <div class="form-group"><label class="form-label">Tag (pisah koma)</label><input class="form-input" id="f-tags" value="${editingItem?.tags?.join(', ') || ''}" placeholder="Boiler, Operation"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Upload Foto (dari Internal Storage)</label>
+        <input type="file" accept="image/*" class="form-input" id="f-photoFile" onchange="handlePhotoUpload('f-photoFile')">
+        <img id="f-photoFile-preview" src="${editingItem?.photoUrl || ''}" style="max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 8px; ${editingItem?.photoUrl ? 'display:block;' : 'display:none;'}">
+      </div>
+      <div class="form-group"><label class="form-label">Keterangan</label><textarea class="form-textarea" id="f-desc" placeholder="Deskripsi foto...">${editingItem?.desc || ''}</textarea></div>
+    `;
+  } else {
+    // Standard fields for equipment, components, electrical, instruments, systems
+    fields = `
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Nama <span style="color:var(--accent)">*</span></label><input class="form-input" id="f-name" value="${editingItem?.name || ''}" placeholder="Boiler, Steam Turbine, BFP..."></div>
+        <div class="form-group"><label class="form-label">Kategori</label><input class="form-input" id="f-category" value="${editingItem?.category || ''}" placeholder="Main Equipment / Pump / Fan..."></div>
+      </div>
+      <div class="form-group"><label class="form-label">Deskripsi Singkat</label><textarea class="form-textarea" id="f-description" style="min-height:50px;" placeholder="Ringkasan singkat tentang item ini...">${editingItem?.description || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Tag (pisah koma)</label><input class="form-input" id="f-tags" value="${editingItem?.tags?.join(', ') || ''}" placeholder="Boiler, Steam, Critical Equipment"></div>
+      <div class="form-group">
+        <label class="form-label">Upload Foto (opsional)</label>
+        <input type="file" accept="image/*" class="form-input" id="f-photoFile" onchange="handlePhotoUpload('f-photoFile')">
+        <img id="f-photoFile-preview" src="${editingItem?.photo || ''}" style="max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 8px; ${editingItem?.photo ? 'display:block;' : 'display:none;'}">
+      </div>
+      
+      <div style="border-top:1px solid var(--border);margin:20px 0;padding-top:20px;">
+        <h4 style="font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 16px;">Informasi Teknis</h4>
+      </div>
+      
+      <div class="form-group"><label class="form-label">Fungsi</label><textarea class="form-textarea" id="f-function" placeholder="Fungsi utama item...">${editingItem?.function || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Prinsip Kerja</label><textarea class="form-textarea" id="f-principle" placeholder="Prinsip kerja item...">${editingItem?.principle || ''}</textarea></div>
+      <div class="form-group">
+        <label class="form-label">Cara Kerja Detail <span style="opacity:0.6;font-weight:normal">(gunakan [[Nama Item]] untuk link ke artikel lain)</span></label>
+        <textarea class="form-textarea" id="f-workingDetail" style="min-height:120px;" placeholder="Penjelasan detail cara kerja. Gunakan [[Boiler]] atau [[BFP]] untuk membuat link ke artikel lain...">${editingItem?.workingDetail || ''}</textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Input</label><textarea class="form-textarea" id="f-input" placeholder="Input utama...">${editingItem?.input || ''}</textarea></div>
+        <div class="form-group"><label class="form-label">Output</label><textarea class="form-textarea" id="f-output" placeholder="Output utama...">${editingItem?.output || ''}</textarea></div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Parameter Operasi <span style="opacity:0.6;font-weight:normal">(satu per baris, format: Nama | Nilai | Satuan)</span></label>
+        <textarea class="form-textarea" id="f-parameters" placeholder="Main Steam Pressure | 170 | bar&#10;Main Steam Temperature | 540 | °C">${editingItem?.parameters?.map(p => `${p.name} | ${p.value} | ${p.unit}`).join('\n') || ''}</textarea>
+      </div>
+      
+      <div style="border-top:1px solid var(--border);margin:20px 0;padding-top:20px;">
+        <h4 style="font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 16px;">Operation & Maintenance</h4>
+      </div>
+      
+      <div class="form-group"><label class="form-label">Komponen Penyusun <span style="opacity:0.6;font-weight:normal">(satu per baris)</span></label><textarea class="form-textarea" id="f-components" placeholder="Steam Drum&#10;Economizer&#10;Superheater">${editingItem?.components?.join('\n') || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Gangguan yang Sering Terjadi <span style="opacity:0.6;font-weight:normal">(satu per baris)</span></label><textarea class="form-textarea" id="f-disturbances" placeholder="Tube leak&#10;Flame instability">${editingItem?.disturbances?.join('\n') || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Penyebab Kerusakan <span style="opacity:0.6;font-weight:normal">(satu per baris)</span></label><textarea class="form-textarea" id="f-causes" placeholder="Korosi tube&#10;Kualitas batubara tidak konsisten">${editingItem?.causes?.join('\n') || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Solusi & Tindakan <span style="opacity:0.6;font-weight:normal">(satu per baris)</span></label><textarea class="form-textarea" id="f-solutions" placeholder="Shutdown emergency&#10;Adjust burner tilt">${editingItem?.solutions?.join('\n') || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Metode Maintenance <span style="opacity:0.6;font-weight:normal">(satu per baris)</span></label><textarea class="form-textarea" id="f-maintenance" placeholder="Inspeksi tube NDT&#10;Soot blowing harian">${editingItem?.maintenance?.join('\n') || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">SOP</label><textarea class="form-textarea" id="f-sop" placeholder="Prosedur operasi standar...">${editingItem?.sop || ''}</textarea></div>
+      <div class="form-group"><label class="form-label">Manual</label><textarea class="form-textarea" id="f-manual" placeholder="Referensi manual book...">${editingItem?.manual || ''}</textarea></div>
+      
+      <div style="border-top:1px solid var(--border);margin:20px 0;padding-top:20px;">
+        <h4 style="font-family:'Rajdhani',sans-serif;font-size:14px;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin:0 0 16px;">Hubungan Antar Artikel</h4>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Related Item ID <span style="opacity:0.6;font-weight:normal">(satu per baris, gunakan ID artikel terkait)</span></label>
+        <textarea class="form-textarea" id="f-related" placeholder="economizer&#10;superheater&#10;steam-drum">${editingItem?.related?.join('\n') || ''}</textarea>
+        <div class="form-hint">Tip: ID adalah bagian terakhir URL. Contoh: #/equipment/boiler → ID-nya "boiler"</div>
+      </div>
+    `;
+  }
+  
+  document.getElementById('modalBody').innerHTML = fields;
+  document.getElementById('modalBody').oninput = triggerAutoSave;
+  document.getElementById('modalBody').onchange = triggerAutoSave;
+  
+  document.getElementById('modalFooter').innerHTML = `
+    <span id="autoSaveStatus" style="margin-right:auto; color:var(--green); font-size:12px; opacity:0; transition:opacity 0.3s;">✓ Tersimpan</span>
+    <button class="btn btn-ghost" onclick="closeModal()">Tutup</button>
+    <button class="btn btn-primary" onclick="saveItem('${state.editingType}', '${state.editingId}')"><i class="fas fa-check"></i> Simpan & Tutup</button>
+  `;
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+  if (state.editingIsNew && state.editingType && state.editingId) {
+    const item = findItem(state.editingType, state.editingId);
+    if (item) {
+      let isEmpty = false;
+      if (state.editingType === 'glossary') isEmpty = !item.abbr && !item.full;
+      else if (state.editingType === 'photos') isEmpty = !item.title && !item.photoUrl;
+      else isEmpty = !item.name;
+      
+      if (isEmpty) {
+        const idx = state.data[state.editingType].findIndex(i => i.id === state.editingId);
+        if (idx >= 0) state.data[state.editingType].splice(idx, 1);
+        DB.save();
+        renderNav();
+      }
+    }
+  }
+  document.getElementById('modalOverlay').classList.remove('active');
+  state.editingIsNew = false;
+  state.editingId = null;
+  state.editingType = null;
+  router.handle();
+}
+
+function saveItem(type, id, silent = false) {
+  const items = state.data[type];
+  let item = items.find(i => i.id === id);
+  if (!item) return;
+  
+  const getVal = id => (document.getElementById(id)?.value || '').trim();
+  const getLines = id => getVal(id).split('\n').map(s => s.trim()).filter(Boolean);
+  
+  if (!silent) {
+    if (type === 'glossary' && !getVal('f-abbr')) { showToast('Abbreviation wajib diisi', 'fa-exclamation', 'error'); return; }
+    if (type === 'documents' && !getVal('f-title')) { showToast('Judul wajib diisi', 'fa-exclamation', 'error'); return; }
+    if (type === 'photos' && !getVal('f-title')) { showToast('Judul wajib diisi', 'fa-exclamation', 'error'); return; }
+    if (!['glossary', 'documents', 'photos'].includes(type) && !getVal('f-name')) { showToast('Nama wajib diisi', 'fa-exclamation', 'error'); return; }
+  }
+  
+  if (type === 'glossary') {
+    item.abbr = getVal('f-abbr');
+    item.full = getVal('f-full');
+    item.desc = getVal('f-desc');
+  } else if (type === 'documents') {
+    item.title = getVal('f-title');
+    item.type = getVal('f-type');
+    item.category = getVal('f-category');
+    item.fileName = getVal('f-fileName');
+    item.desc = getVal('f-desc');
+  } else if (type === 'photos') {
+    item.title = getVal('f-title');
+    item.location = getVal('f-location');
+    item.equipment = getVal('f-equipment');
+    item.date = getVal('f-date');
+    item.desc = getVal('f-desc');
+    if (currentUploadedPhoto) item.photoUrl = currentUploadedPhoto;
+    item.tags = getVal('f-tags').split(',').map(s => s.trim()).filter(Boolean);
+  } else {
+    item.name = getVal('f-name');
+    item.category = getVal('f-category');
+    item.description = getVal('f-description');
+    item.tags = getVal('f-tags').split(',').map(s => s.trim()).filter(Boolean);
+    if (currentUploadedPhoto) item.photo = currentUploadedPhoto;
+    item.function = getVal('f-function');
+    item.principle = getVal('f-principle');
+    item.workingDetail = getVal('f-workingDetail');
+    item.input = getVal('f-input');
+    item.output = getVal('f-output');
+    item.parameters = getLines('f-parameters').map(line => {
+      const parts = line.split('|').map(s => s.trim());
+      return { name: parts[0] || '', value: parts[1] || '', unit: parts[2] || '' };
+    });
+    item.components = getLines('f-components');
+    item.disturbances = getLines('f-disturbances');
+    item.causes = getLines('f-causes');
+    item.solutions = getLines('f-solutions');
+    item.maintenance = getLines('f-maintenance');
+    item.sop = getVal('f-sop');
+    item.manual = getVal('f-manual');
+    item.related = getLines('f-related').map(r => r.replace(/,/g, '').trim());
+  }
+  
+  DB.save();
+  
+  if (!silent) {
+    closeModal();
+    renderNav();
+    showToast('Perubahan disimpan', 'fa-check', 'success');
+  } else {
+    renderNav();
+    const status = document.getElementById('autoSaveStatus');
+    if (status) {
+      status.textContent = '✓ Tersimpan';
+      status.style.opacity = '1';
+      setTimeout(() => { status.style.opacity = '0'; }, 1000);
+    }
+  }
+}
+
+function deleteItem(type, id) {
+  if (!confirm('Hapus entri ini? Tindakan tidak dapat dibatalkan.')) return;
+  const idx = state.data[type].findIndex(i => i.id === id);
+  if (idx >= 0) {
+    state.data[type].splice(idx, 1);
+    state.bookmarks = state.bookmarks.filter(b => !(b.type === type && b.id === id));
+    delete state.notes[getStatusKey(type, id)];
+    delete state.learningStatus[getStatusKey(type, id)];
+    DB.save();
+    renderNav();
+    router.navigate(type);
+    showToast('Entri dihapus', 'fa-trash');
+  }
+}
+
+function generateId(type) {
+  const base = type + '-';
+  const ts = Date.now().toString(36);
+  const rand = Math.random().toString(36).slice(2, 6);
+  return base + ts + rand;
+}
+
+// ===== FILTER =====
+function filterList(type, tag, el) {
+  if (el) {
+    document.querySelectorAll('#filterBar .filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+  
+  const allItems = state.data[type];
+  const filtered = tag ? allItems.filter(i => i.tags && i.tags.includes(tag)) : allItems;
+  
+  const container = document.getElementById('listContainer');
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><i class="fas fa-filter"></i></div><h3>Tidak ada entri</h3><p>Tidak ada item dengan tag "${tag}".</p></div>`;
+  } else {
+    container.innerHTML = renderListByType(type, filtered);
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ===== INIT =====
+async function init() {
+  await DB.load();
+  renderNav();
+  updateBookmarkCount();
+  router.init();
+  
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('focus', openSearch);
+  searchInput.addEventListener('input', () => {
+    document.getElementById('searchModalInput').value = searchInput.value;
+    renderSearchResults(searchInput.value);
+  });
+  
+  const modalInput = document.getElementById('searchModalInput');
+  modalInput.addEventListener('input', () => {
+    searchInput.value = modalInput.value;
+    renderSearchResults(modalInput.value);
+  });
+  
+  document.getElementById('searchOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'searchOverlay') closeSearch();
+  });
+  
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target.id === 'modalOverlay') closeModal();
+  });
+  
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+    if (e.key === 'Escape') {
+      closeSearch();
+      closeModal();
+    }
+  });
+}
+
+init();
+</script>
+</body>
+</html>
